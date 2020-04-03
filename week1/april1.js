@@ -12,3 +12,21 @@
 
 // Input: [4, 1, 2, 1, 2]
 // Output: 4
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+const singleNumber = function(nums) {
+  const numsMap = nums.reduce((acc, num) => {
+    acc[num] = acc[num] ? (acc[num] += 1) : 1;
+
+    return acc;
+  }, {});
+
+  for (const num in numsMap) {
+    if (numsMap[num] === 1) {
+      return num;
+    }
+  }
+};
