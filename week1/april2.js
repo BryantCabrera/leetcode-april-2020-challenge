@@ -11,3 +11,33 @@
 // 82 + 22 = 68
 // 62 + 82 = 100
 // 12 + 02 + 02 = 1
+
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+const isHappy = function(n) {
+  let sumOfSquaredDigits = n;
+
+  const sums = [];
+
+  function findSumOfSquaredDigits(num) {
+    sums.push(num);
+
+    const str = num.toString();
+
+    const splitStrArr = str.split("");
+
+    const numArr = splitStrArr.map(str => parseInt(str, 10));
+
+    sumOfSquaredDigits = numArr.reduce((acc, num) => {
+      return acc + Math.pow(num, 2);
+    }, 0);
+  }
+
+  while (!sums.includes(sumOfSquaredDigits)) {
+    findSumOfSquaredDigits(sumOfSquaredDigits);
+  }
+
+  return sumOfSquaredDigits === 1 ? true : false;
+};
