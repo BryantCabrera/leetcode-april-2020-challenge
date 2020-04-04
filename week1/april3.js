@@ -11,7 +11,7 @@
 
 
 
-// O(n^2)
+// O(n^3)
 /**
  * @param {number[]} nums
  * @return {number}
