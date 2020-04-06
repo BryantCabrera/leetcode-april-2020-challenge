@@ -20,6 +20,7 @@
  */
 var groupAnagrams = function (strs) {
 	// initialize anagramMap
+	const anagramMap = {};
 
 	// loop through list of words
 
