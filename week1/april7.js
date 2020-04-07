@@ -30,3 +30,31 @@
 
 // 1 <= arr.length <= 1000
 // 0 <= arr[i] <= 1000
+
+
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var countElements = function (arr) {
+	// initialize the counter
+	let count = 0;
+
+	// loop through the array
+	// if the array includes number + 1, add to the counter
+	arr.forEach(number => {
+		count += arr.includes(number + 1) ? 1 : 0;
+	});
+
+	// return the count
+	return count;
+};
+
+
+// >>>>> Unused Elements <<<<<
+// for tallying each 'valid/counted' number; expands on this problem
+// sort the array
+    // create a map of the tally of each number where {'number': count}
+
+    // iterate through the map and check if the de-stringified 'number' + 1 is a key in the map
+        // if it exists, subtract the count of (number + 1) from that number's count
