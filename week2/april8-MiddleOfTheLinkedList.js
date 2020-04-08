@@ -24,3 +24,44 @@
 // 	Note:
 
 // The number of nodes in the given list will be between 1 and 100.
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var middleNode = function (head) {
+	// Initialize the array of node values
+	const arrayOfNodeValues = [];
+
+	// Traverse the linkedList
+	let current = head;
+
+	while (current.next !== null) {
+		// Cache the current node in an array so that we can easily determine the median
+		arrayOfNodeValues.push(current);
+
+		// Move on to the next node in the LinkedList
+		current = current.next;
+	}
+
+	// If we are at the last node, push it into the array
+	// This also covers an Edge Case: if there is only 1 node value, the head is the only thing we return
+	if (current.next === null) {
+		arrayOfNodeValues.push(current);
+	}
+
+	// Determine the middle node value in the array
+	// If there are 2 middle nodes, return the value of the second
+	// I floored the case of an odd # of nodes so that we can account for arrays being 0-indexed (and thus, the median will be indexed at the median rounded down)
+	const median = (arrayOfNodeValues.length / 2) % 1 === 0 ? (arrayOfNodeValues.length / 2) : Math.floor(arrayOfNodeValues.length / 2);
+
+	// Return that node as a linkedList
+	return arrayOfNodeValues[median];
+};
