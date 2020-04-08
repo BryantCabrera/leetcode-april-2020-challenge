@@ -1,3 +1,6 @@
+// Counting Elements
+// https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/528/week-1/3289/
+
 // Given an integer array arr, count element x such that x + 1 is also in arr.
 
 // If there're duplicates in arr, count them seperately.
