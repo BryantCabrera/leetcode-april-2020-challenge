@@ -33,7 +33,34 @@
 // Can you solve it in O(N) time and O(1) space ?
 
 
+/**
+ * @param {string} S
+ * @param {string} T
+ * @return {boolean}
+ */
+var backspaceCompare = function (S, T) {
+	// reconstruct the correct string, deleting as necessary 
+	const cleanString = (currentString) => {
+		while (/#/g.test(currentString)) {
+			if (/^#/.test(currentString)) {
+				currentString = currentString.replace(/(^#)/g, '');
+			}
 
+			currentString = currentString.replace(/([a-z]#)/g, '');
+		}
+
+		return currentString;
+	};
+
+	let currentStringS = cleanString(S);
+
+	let currentStringT = cleanString(T);
+
+	// compare both strings
+	// if they are identical, return true
+	// if they are not identical, return false
+	return currentStringS === currentStringT;
+};
 
 
 // Possible Alternate Solution
