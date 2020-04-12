@@ -14,6 +14,7 @@
 
 // 	Note: The length of path between two nodes is represented by the number of edges between them.
 
+
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -26,43 +27,60 @@
  * @return {number}
  */
 var diameterOfBinaryTree = function (root) {
-	console.log(root, 'root');
+	const determineLevels = (node) => {
+		// intiialize the current queue
+		let queue = [node];
 
-	// initialize the array of possible paths from the root
-	const paths = [];
+		// initialize the count of levels
+		let levelCount = 0;
 
-	// initialize the cache of the current root
-	let currentNode = root;
+		// traverse the binary tree
+		while (queue.length) {
+			// count the number of nodes in the current level
+			console.log(queue, 'queue at beginning of while loop');
+			let nodesOfCurrentLevel = queue.length;
+			levelCount += 1;
+			console.log(levelCount, 'levelCount at currentLevel');
 
-	// initialize the cache of the current path
-	let currentPath = [];
+			while (nodesOfCurrentLevel > 0) {
+				console.log(nodesOfCurrentLevel, 'nodesOfCurrentLevel');
+				// initialize the cache of the current node
+				// remove the first node in the queue
+				let currentNode = queue.shift();
 
-	// traverse the binary tree
-	while (currentNode.left !== null && currentNode.right !== null) {
-		// continue on to the next node
-		if (!currentNode.right) {
-			// if there is just a left node
-			currentNode = currentNode.left;
-		} else if (!currentNode.left) {
-			// if there is just a right node
-			currentNode = currentNode.right;
-		} else {
-			// if there is both a left and right node
-			console.log('it has both a left and right node');
-			currentNode = currentNode.left;
+				// continue on to the next node
+				if (currentNode.left) {
+					// add the next node to queue to traverse
+					queue.push(currentNode.left);
+				}
+
+				if (currentNode.right) {
+					// add the next node to queue to traverse
+					queue.push(currentNode.right);
+				}
+
+				// decrement that number of nodes in currentLevel that we have to assess
+				nodesOfCurrentLevel -= 1;
+			}
 		}
 
-
-		// cache the length of each branch by creating an array of that path's nodes
-		currentPath.push(currentNode);
-
-		// reinitialize the cache of the current path
-		console.log(currentPath, 'currentPath');
-		currentPath = [];
+		return levelCount;
 	}
 
+	console.log(determineLevels(root.left), 'root.left');
+	console.log(determineLevels(root.right), 'root.right');
+
+	// GENERAL CASE +
+	// EDGE CASES
+	// if root has no left branches, return length of branch from root to node of end of longest right branch
+	// if root has no right branches, return length of branch from root to node of end of longest left branch
+
+	const leftPathDistanceToRoot = root.left === null ? 0 : determineLevels(root.left);
+	const rightPathDistanceToRoot = root.right === null ? 0 : determineLevels(root.right);
+
 	// the longest path is the one that touches the most nodes
-	// so take the longest branches, and if they are not offshots of the same branch, return their length - 1 (so we take into account that we are repeating the root node twice)
+	// so take the longest branches on either side of the root and return the sum of their distance to the route (by starting at the second level, we are avoiding counting the root node twice)
+	return leftPathDistanceToRoot + rightPathDistanceToRoot;
 };
 
 
@@ -135,4 +153,126 @@ var diameterOfBinaryTree = function (root) {
 
 // 	// the longest path is the one that touches the most nodes
 // 	// so take the longest branches, and if they are not offshots of the same branch, return their length - 1 (so we take into account that we are repeating the root node twice)
+// };
+
+
+
+// Solution for another problem: longest left branch plus longest right branch WITH LOGS
+// /**
+//  * Definition for a binary tree node.
+//  * function TreeNode(val) {
+//  *     this.val = val;
+//  *     this.left = this.right = null;
+//  * }
+//  */
+// /**
+//  * @param {TreeNode} root
+//  * @return {number}
+//  */
+// var diameterOfBinaryTree = function (root) {
+// 	console.log(root, 'root');
+
+// 	// initialize the array of possible paths from the root
+// 	const paths = [];
+
+// 	// initialize the cache of the current root
+// 	let currentNode = root;
+
+// 	// initialize the cache of the current path
+// 	let currentPath = [];
+
+// 	// traverse the binary tree
+// 	while (currentNode.left !== null && currentNode.right !== null) {
+// 		// continue on to the next node
+// 		if (!currentNode.right) {
+// 			// if there is just a left node
+// 			currentNode = currentNode.left;
+// 		} else if (!currentNode.left) {
+// 			// if there is just a right node
+// 			currentNode = currentNode.right;
+// 		} else {
+// 			// if there is both a left and right node
+// 			console.log('it has both a left and right node');
+// 			currentNode = currentNode.left;
+// 		}
+
+
+// 		// cache the length of each branch by creating an array of that path's nodes
+// 		currentPath.push(currentNode);
+
+// 		// reinitialize the cache of the current path
+// 		console.log(currentPath, 'currentPath');
+// 		currentPath = [];
+// 	}
+
+// 	// the longest path is the one that touches the most nodes
+// 	// so take the longest branches, and if they are not offshots of the same branch, return their length - 1 (so we take into account that we are repeating the root node twice)
+// };
+
+
+
+// Solution for another problem: longest left branch plus longest right branch
+// /**
+//  * Definition for a binary tree node.
+//  * function TreeNode(val) {
+//  *     this.val = val;
+//  *     this.left = this.right = null;
+//  * }
+//  */
+// /**
+//  * @param {TreeNode} root
+//  * @return {number}
+//  */
+// var diameterOfBinaryTree = function (root) {
+// 	const determineLevels = (node) => {
+// 		// initialize the current queue
+// 		let queue = [node];
+
+// 		// initialize the count of levels
+// 		let levelCount = 0;
+
+// 		// traverse the binary tree
+// 		while (queue.length) {
+// 			// count the number of nodes in the current level
+// 			let nodesOfCurrentLevel = queue.length;
+
+// 			// if we have broken out of the inner while loop, we know we are at a new level
+// 			levelCount += 1;
+
+// 			while (nodesOfCurrentLevel > 0) {
+// 				// initialize the cache of the current node
+// 				// remove the first node in the queue
+// 				let currentNode = queue.shift();
+
+// 				// add any child nodes to the queue
+// 				if (currentNode.left) {
+// 					queue.push(currentNode.left);
+// 				}
+// 				if (currentNode.right) {
+// 					queue.push(currentNode.right);
+// 				}
+
+// 				// decrement the number of nodes in currentLevel that we have to assess
+// 				nodesOfCurrentLevel -= 1;
+// 			}
+// 		}
+
+// 		return levelCount;
+// 	}
+
+// 	// GENERAL CASE +
+// 	// EDGE CASES
+// 	// if root is null, it has no distance
+// 	if (root === null) {
+// 		return 0;
+// 	}
+
+// 	// if root has no left branches, return length of branch from root to node of end of longest right branch
+// 	// if root has no right branches, return length of branch from root to node of end of longest left branch
+// 	const leftPathDistanceToRoot = root.left === null ? 0 : determineLevels(root.left);
+// 	const rightPathDistanceToRoot = root.right === null ? 0 : determineLevels(root.right);
+
+// 	// the longest path is the one that touches the most nodes
+// 	// so take the longest branches on either side of the root and return the sum of their distance to the route (by starting at the second level, we are avoiding counting the root node twice)
+// 	return leftPathDistanceToRoot + rightPathDistanceToRoot;
 // };
