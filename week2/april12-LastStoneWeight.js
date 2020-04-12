@@ -28,3 +28,60 @@
 // 1 <= stones[i] <= 1000
 
 
+/**
+ * @param {number[]} stones
+ * @return {number}
+ */
+var lastStoneWeight = function (stones) {
+	while (stones.length > 1) {
+		// sort the stones in descending weight order
+		stones.sort(function (a, b) {
+			return b - a;
+		});
+
+		stones[0] === stones[1] ? null : stones.push(Math.abs(stones[0] - stones[1]));
+		stones.splice(0, 2);
+	}
+
+	return stones;
+};
+
+
+// Alternate Solution: Nested Ternary
+// /**
+//  * @param {number[]} stones
+//  * @return {number}
+//  */
+// var lastStoneWeight = function (stones) {
+// 	// sort the stones in descending weight order
+// 	stones.sort(function (a, b) {
+// 		return b - a;
+// 	});
+
+// 	return stones.reduce((accumulator, stone) => {
+// 		return accumulator = stone === accumulator ?
+// 			0 :
+// 			(stone > accumulator ?
+// 				stone - accumulator :
+// 				accumulator - stone);
+// 	}, 0);
+// };
+
+
+// Alternate Solution: Absolute Value
+// /**
+//  * @param {number[]} stones
+//  * @return {number}
+//  */
+// var lastStoneWeight = function (stones) {
+// 	// sort the stones in descending weight order
+// 	stones.sort(function (a, b) {
+// 		return b - a;
+// 	});
+
+// 	console.log(stones, 'stones');
+// 	return stones.reduce((accumulator, stone) => {
+// 		console.log('stone: ', stone, '. accumulator: ', accumulator)
+// 		return accumulator = stone === accumulator ? 0 : Math.abs(stone - accumulator);
+// 	}, 0);
+// };
