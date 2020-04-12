@@ -39,7 +39,7 @@ var diameterOfBinaryTree = function (root) {
 	const diameterOfBinaryTree = node => {
 		// EDGE CASE
 		// if the root is null, there is no diameter
-		// if there is no currentNode, it does not distance to the diameter
+		// if there is no currentNode, it does not add distance to the diameter
 		if (!node) return 0;
 
 		const center = determineDiameter(node.left) + determineDiameter(node.right);
