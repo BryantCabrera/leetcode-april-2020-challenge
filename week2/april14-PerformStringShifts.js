@@ -34,3 +34,29 @@
 // shift[i].length == 2
 // 0 <= shift[i][0] <= 1
 // 0 <= shift[i][1] <= 100
+
+/**
+ * @param {string} s
+ * @param {number[][]} shift
+ * @return {string}
+ */
+var stringShift = function (s, shift) {
+  // turn the string into an array
+  const strArr = s.split("");
+
+  // iterate through the array
+  for (let i = 0; i < shift.length; i++) {
+    if (shift[i][0] === 0) {
+      // handle left shifts
+      strArr.splice(0, shift[i][1]).forEach((letter) => strArr.push(letter));
+    } else if (shift[i][0] === 1) {
+      // handle right shifts
+      const overflowLetters = strArr.splice(strArr.length - shift[i][1]);
+      strArr.unshift(...overflowLetters);
+      console.log(strArr, "after right shift");
+    }
+  }
+
+  // return the re-joined string
+  return strArr.join("");
+};
