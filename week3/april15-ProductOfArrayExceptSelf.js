@@ -13,3 +13,35 @@
 
 // Follow up:
 // Could you solve it with constant space complexity ? (The output array does not count as extra space for the purpose of space complexity analysis.)
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelf = function(nums) {    
+	const beforesArray = [1];
+	
+	let tempBeforesProduct = 1;
+	
+	for (let i = 0; i < nums.length - 1; i++) {
+			tempBeforesProduct *= nums[i];
+			beforesArray.push(tempBeforesProduct);
+	}
+	
+	const aftersArray = [1];
+	
+	let tempAftersProduct = 1;
+	
+	for (let i = nums.length - 1; i > 0; i--) {
+			tempAftersProduct *= nums[i];
+			aftersArray.unshift(tempAftersProduct);
+	}
+	
+	const output = [];
+	
+	for (let i = 0; i < nums.length; i++) {
+			output.push(beforesArray[i] * aftersArray[i]);
+	}
+	
+	return output;
+};
