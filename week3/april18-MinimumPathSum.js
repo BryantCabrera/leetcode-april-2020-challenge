@@ -15,3 +15,32 @@
 // ]
 // Output: 7
 // Explanation: Because the path 1→3→1→1→1 minimizes the s
+
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+	let currentPosition = [0, 0];
+	
+	// Map where [sumFromRightMoveToThisNode, sumFromDownMoveToThisNode]
+	let costMap = [];
+	
+	for (let i = 0; i < grid.length; i ++) {
+			costMap.push([]);
+			
+			for (let j = 0; j < grid[i].length; j++) {
+					if (i === 0 && j === 0) {
+							costMap[i].push(grid[i][j]);
+					} else if (i === 0 && j !== 0) {
+							costMap[i].push(grid[i][j] + costMap[i][j - 1]);
+					} else if (i !== 0 && j === 0) {
+							costMap[i].push(grid[i][j] + costMap[i - 1][j]);
+					} else {
+							costMap[i].push(Math.min(grid[i][j] + costMap[i][j - 1], grid[i][j] + costMap[i - 1][j]));
+					}    
+			}
+	}
+	
+	return costMap[costMap.length - 1][costMap[costMap.length - 1].length - 1]
+};
