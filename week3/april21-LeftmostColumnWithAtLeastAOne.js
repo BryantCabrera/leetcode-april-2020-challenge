@@ -48,3 +48,91 @@
 // 1 <= mat.length, mat[i].length <= 100
 // mat[i][j] is either 0 or 1.
 // mat[i] is sorted in a non-decreasing way.
+
+
+/**
+ * // This is the BinaryMatrix's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * function BinaryMatrix() {
+ *     @param {integer} x, y
+ *     @return {integer}
+ *     this.get = function(x, y) {
+ *         ...
+ *     };
+ *
+ *     @return {[integer, integer]}
+ *     this.dimensions = function() {
+ *         ...
+ *     };
+ * };
+ */
+
+/**
+ * @param {BinaryMatrix} binaryMatrix
+ * @return {number}
+ */
+var leftMostColumnWithOne = function(binaryMatrix) {
+	let n = binaryMatrix.dimensions()[1];
+	let m = binaryMatrix.dimensions()[0];
+	let row = 0;
+	let col = n;
+	
+	// Counter for left and right pointers
+	let left = 0;
+	let right = n;
+	
+	while (row < m) {
+			let left = 0;
+			
+			// Implement binary search
+			while (left < right) {
+					let mid = Math.floor((left+right) / 2);
+					
+					if (binaryMatrix.get(row, mid) === 1) {
+							right = mid;
+					} else {
+							left = mid + 1;
+					}
+			}
+			
+			col = left;
+			row++;
+	}
+	
+	return col == n ? -1 : col;
+};
+
+
+// O(M*N) solution
+// /**
+//  * // This is the BinaryMatrix's API interface.
+//  * // You should not implement it, or speculate about its implementation
+//  * function BinaryMatrix() {
+//  *     @param {integer} x, y
+//  *     @return {integer}
+//  *     this.get = function(x, y) {
+//  *         ...
+//  *     };
+//  *
+//  *     @return {[integer, integer]}
+//  *     this.dimensions = function() {
+//  *         ...
+//  *     };
+//  * };
+//  */
+
+// /**
+//  * @param {BinaryMatrix} binaryMatrix
+//  * @return {number}
+//  */
+// var leftMostColumnWithOne = function(binaryMatrix) {
+// 	for (let i = 0; i < binaryMatrix.dimensions()[1]; i++) {
+// 			for (let j = 0; j < binaryMatrix.dimensions()[0]; j++) {
+// 					if (binaryMatrix.get(j, i) === 1) {
+// 							return i;
+// 					}
+// 			}
+// 	}
+	
+// 	return -1;
+// };
