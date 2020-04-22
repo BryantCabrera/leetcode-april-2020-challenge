@@ -11,3 +11,26 @@
 // The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].
 
 
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var subarraySum = function(nums, k) {
+	let count = 0;
+	
+	for (let i = 0; i < nums.length; i++) {
+			let tempSum = 0;
+			
+			for (let j = i; j < nums.length; j++) {
+					tempSum += nums[j];
+
+					if (tempSum === k) {
+							count++;
+							continue;
+					}
+			}
+	}
+	
+	return count;
+};
