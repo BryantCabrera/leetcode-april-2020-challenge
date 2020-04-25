@@ -25,3 +25,394 @@
 // cache.get(3);       // returns 3
 // cache.get(4);       // returns 4
  
+
+/**
+ * @param {number} capacity
+ */
+var LRUCache = function(capacity) {
+	this.max = capacity;
+	this.stack = [];
+	this.cache = {};
+};
+
+/** 
+* @param {number} key
+* @return {number}
+*/
+LRUCache.prototype.get = function(key) {
+	// If the key was not found, return -1
+	if (!this.stack.includes(key) || !this.cache[`${key}`]) {
+			return -1;
+	}
+	
+	// Update Stack
+	// Since this key was just accessed, put it at the end of the stack
+	this.stack = this.stack.filter(element => element != key);
+	this.stack.push(key);
+	
+	return this.cache[`${key}`];
+};
+
+/** 
+* @param {number} key 
+* @param {number} value
+* @return {void}
+*/
+LRUCache.prototype.put = function(key, value) {
+	// If they key is already present, do not PUT
+	if (this.cache[`${key}`]) {
+			// Reset the value of the key in the cache
+			this.cache[`${key}`] = value;
+			
+			// Update stack
+			this.stack = this.stack.filter(element => element != key);
+	}
+	
+	if (this.stack.length === this.max) {
+			this.stack.shift();
+	}
+	
+	this.cache[key] = value;
+	this.stack.push(key);
+};
+
+/** 
+* Your LRUCache object will be instantiated and called as such:
+* var obj = new LRUCache(capacity)
+* var param_1 = obj.get(key)
+* obj.put(key,value)
+*/
+
+
+// Solution with logs
+// /**
+//  * @param {number} capacity
+//  */
+// var LRUCache = function(capacity) {
+// 	this.max = capacity;
+// 	this.stack = [];
+// 	this.cache = {};
+// };
+
+// /** 
+// * @param {number} key
+// * @return {number}
+// */
+// LRUCache.prototype.get = function(key) {
+// 	// If the key was not found, return -1
+// 	if (!this.stack.includes(key) || !this.cache[`${key}`]) {
+// 			console.log('No match found: ', !this.cache[`${key}`]);
+// 			return -1;
+// 	}
+	
+// 	// Update Stack
+// 	// Since this key was just accessed, put it at the end of the stack
+// 	this.stack = this.stack.filter(element => element != key);
+// 	this.stack.push(key);
+	
+// 	return this.cache[`${key}`];
+// };
+
+// /** 
+// * @param {number} key 
+// * @param {number} value
+// * @return {void}
+// */
+// LRUCache.prototype.put = function(key, value) {
+	
+// 	// If they key is already present, do not PUT
+// 	if (this.cache[`${key}`]) {
+// 			console.log('key already present: ', this.cache[`${key}`]);
+// 			this.cache[`${key}`] = value;
+// 			console.log('updated key: ', this.cache[`${key}`]);
+// 			this.stack = this.stack.filter(element => element != key);
+// 			console.log(this.stack, 'updated stack');
+// 	}
+	
+// 	if (this.stack.length === this.max) {
+// 			console.log('cache exceeded', this.stack.length === this.max);
+// 			this.stack.shift();
+// 	}
+	
+// 	this.cache[key] = value;
+// 	console.log(this.cache, 'cache after pushing');
+// 	this.stack.push(key);
+// 	console.log(this.stack, 'stack after pushing');
+// };
+
+// /** 
+// * Your LRUCache object will be instantiated and called as such:
+// * var obj = new LRUCache(capacity)
+// * var param_1 = obj.get(key)
+// * obj.put(key,value)
+// */
+
+
+// Alternate Solution with cache/object information in stack
+// /**
+//  * @param {number} capacity
+//  */
+// var LRUCache = function(capacity) {
+// 	this.max = capacity;
+// 	this.stack = [];
+// 	this.cache = {};
+// };
+
+// /** 
+// * @param {number} key
+// * @return {number}
+// */
+// LRUCache.prototype.get = function(key) {
+// 	// If the key was not found, return -1
+// 	if (!this.cache[`${key}`]) {
+// 			console.log('No match found: ', !this.cache[`${key}`]);
+// 			return -1;
+// 	}
+	
+// 	// Update Stack
+// 	// Since this key was just accessed, put it at the end of the stack
+// 	this.stack = this.stack.filter(element => Object.keys(element)[0] != key);
+// 	this.stack.push({[key]: this.cache[key]});
+	
+// 	return this.cache[`${key}`];
+// };
+
+// /** 
+// * @param {number} key 
+// * @param {number} value
+// * @return {void}
+// */
+// LRUCache.prototype.put = function(key, value) {
+// 	const matchingElementInCache = this.stack.filter(element => Object.keys(element)[0] == key);
+	
+// 	// If they key is already present, do not PUT
+// 	if (this.cache[`${key}`]) {
+// 			console.log('key already present: ', this.cache[`${key}`]);
+// 			this.cache[`${key}`] = value;
+// 			console.log('updated key: ', this.cache[`${key}`]);
+// 			this.stack = this.stack.filter(element => Object.keys(element)[0] != key);
+// 			console.log(this.stack, 'updated stack');
+// 	}
+	
+// 	if (this.stack.length === this.max) {
+// 			console.log('cache exceeded', this.stack.length === this.max);
+// 			this.stack.shift();
+// 	}
+	
+// 	this.cache[key] = value;
+// 	console.log(this.cache, 'after pushing');
+// 	this.stack.push({[key]: value});
+// 	console.log(this.stack, 'after pushing');
+// };
+
+// /** 
+// * Your LRUCache object will be instantiated and called as such:
+// * var obj = new LRUCache(capacity)
+// * var param_1 = obj.get(key)
+// * obj.put(key,value)
+// */
+
+
+
+// Alternate Solution with Logs
+// /**
+//  * @param {number} capacity
+//  */
+// var LRUCache = function(capacity) {
+// 	this.max = capacity;
+// 	console.log(this.max, 'this.max');
+// 	this.cache = [];
+// 	console.log(this.cache, 'this.cache');
+// };
+
+// /** 
+// * @param {number} key
+// * @return {number}
+// */
+// LRUCache.prototype.get = function(key) {
+// 	const matchingElementInCache = this.cache.filter(element => Object.keys(element)[0] == key);
+// 	console.log(matchingElementInCache, 'matchingElementInCache');
+	
+// 	// If the key was not found, return -1
+// 	if (!matchingElementInCache.length) {
+// 			console.log('No match found: ', !matchingElementInCache.length);
+// 			return -1;
+// 	}
+	
+// 	// Update Cache
+// 	// Since this key was just accessed, put it at the end of the stack
+// 	this.cache = this.cache.filter(element => Object.keys(element)[0] != key);
+// 	this.cache.push(matchingElementInCache[0]);
+	
+// 	return matchingElementInCache[0][`${key}`];
+// };
+
+// /** 
+// * @param {number} key 
+// * @param {number} value
+// * @return {void}
+// */
+// LRUCache.prototype.put = function(key, value) {
+// 	const matchingElementInCache = this.cache.filter(element => Object.keys(element)[0] == key);
+	
+// 	// If they key is already present, do not PUT
+// 	if (matchingElementInCache.length) {
+// 			console.log('key already present: ', matchingElementInCache[0]);
+// 			this.cache = this.cache.filter(element => Object.keys(element)[0] != key);
+// 			console.log(this.cache, 'updated cache');
+// 	}
+	
+// 	if (this.cache.length === this.max) {
+// 			console.log('cache exceeded', this.cache.length === this.max);
+// 			this.cache.shift();
+// 	}
+	
+// 	this.cache.push({[key]: value});
+// 	console.log(this.cache, 'after pushing');
+// };
+
+// /** 
+// * Your LRUCache object will be instantiated and called as such:
+// * var obj = new LRUCache(capacity)
+// * var param_1 = obj.get(key)
+// * obj.put(key,value)
+// */
+
+
+// Unused Implementations
+// /**
+//  * @param {number} capacity
+//  */
+// var LRUCache = function(capacity) {
+// 	this.max = capacity;
+// 	console.log(this.max, 'this.max');
+// 	this.cache = new Array(this.max).fill(null);
+// 	console.log(this.cache, 'this.cache');
+// };
+
+// /** 
+// * @param {number} key
+// * @return {number}
+// */
+// LRUCache.prototype.get = function(key) {
+// 	return this.cache[key] || -1;
+// };
+
+// /** 
+// * @param {number} key 
+// * @param {number} value
+// * @return {void}
+// */
+// LRUCache.prototype.put = function(key, value) {
+// 	if (key > this.max - 1) {
+// 			return -1;
+// 	}
+	
+// 	if (this.cache[key] !== null) {
+// 			this.cache.pop();
+// 	} else {
+// 			this.cache[key] = value;
+// 	}
+// };
+
+// /** 
+// * Your LRUCache object will be instantiated and called as such:
+// * var obj = new LRUCache(capacity)
+// * var param_1 = obj.get(key)
+// * obj.put(key,value)
+// */
+
+
+// /**
+//  * @param {number} capacity
+//  */
+// var LRUCache = function(capacity) {
+// 	this.max = capacity;
+// 	console.log(this.max, 'this.max');
+// 	this.cache = [];
+// 	console.log(this.cache, 'this.cache');
+// };
+
+// /** 
+// * @param {number} key
+// * @return {number}
+// */
+// LRUCache.prototype.get = function(key) {
+// 	return this.cache.filter(element => {
+// 			if (element !== null) {
+// 					return Object.keys(element)[0] == key
+// 			} else {
+// 					return false;
+// 			}
+// 	})[0] || -1;
+// };
+
+// /** 
+// * @param {number} key 
+// * @param {number} value
+// * @return {void}
+// */
+// LRUCache.prototype.put = function(key, value) {
+// 	if (this.cache.filter(element => element !== null).length == this.max) {
+// 			return -1;
+// 	}
+	
+// 	if (this.cache.filter(element => element !== null).length === this.max) {
+// 			console.log('cache exceeded', this.cache.filter(element => element !== null).length === this.max - 1);
+// 			this.cache.pop();
+// 	} else {
+// 			this.cache.push({[key]: value});
+// 			console.log(this.cache, 'after pushing');
+// 	}
+// };
+
+// /** 
+// * Your LRUCache object will be instantiated and called as such:
+// * var obj = new LRUCache(capacity)
+// * var param_1 = obj.get(key)
+// * obj.put(key,value)
+// */
+
+
+// /**
+//  * @param {number} capacity
+//  */
+// var LRUCache = function(capacity) {
+// 	this.max = capacity;
+// 	console.log(this.max, 'this.max');
+// 	this.cache = [];
+// 	console.log(this.cache, 'this.cache');
+// };
+
+// /** 
+// * @param {number} key
+// * @return {number}
+// */
+// LRUCache.prototype.get = function(key) {
+// 	console.log(this.cache.filter(element => Object.keys(element)[0] == key), 'FILTER');
+// 	// this.cache.reduce()
+// 	const matchingElementInCache = this.cache.filter(element => Object.keys(element)[0] == key);
+// 	return matchingElementInCache.length ? matchingElementInCache[0][`${key}`] : -1;
+// };
+
+// /** 
+// * @param {number} key 
+// * @param {number} value
+// * @return {void}
+// */
+// LRUCache.prototype.put = function(key, value) {
+// 	if (this.cache.length === this.max) {
+// 			console.log('cache exceeded', this.cache.length === this.max);
+// 			this.cache.pop();
+// 	}
+	
+// 	this.cache.push({[key]: value});
+// 	console.log(this.cache, 'after pushing');
+// };
+
+// /** 
+// * Your LRUCache object will be instantiated and called as such:
+// * var obj = new LRUCache(capacity)
+// * var param_1 = obj.get(key)
+// * obj.put(key,value)
+// */
