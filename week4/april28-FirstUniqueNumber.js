@@ -103,7 +103,6 @@ FirstUnique.prototype.add = function(value) {
 	}
 	
 	this.queue.push(value);
-
 };
 
 /** 
