@@ -68,3 +68,147 @@
 // 1 <= nums[i] <= 10^8
 // 1 <= value <= 10^8
 // At most 50000 calls will be made to showFirstUnique and add.
+
+
+/**
+ * @param {number[]} nums
+ */
+var FirstUnique = function(nums) {
+	this.queue = nums;
+	this.numCount = this.queue.reduce( (accumulator, num) => {
+			accumulator[num] = accumulator[num] ? accumulator[num] + 1 : 1;
+			return accumulator;
+	}, {});
+	this.uniqueNums = this.queue.filter(num => this.numCount[num] === 1);
+};
+
+/**
+* @return {number}
+*/
+FirstUnique.prototype.showFirstUnique = function() {
+	return this.uniqueNums.length ? this.uniqueNums[0] : -1;
+};
+
+/** 
+* @param {number} value
+* @return {void}
+*/
+FirstUnique.prototype.add = function(value) {
+	if (this.numCount[value] > 0) {
+			this.numCount[value]++;
+			this.uniqueNums.splice(this.uniqueNums.indexOf(value), 1);
+	} else {
+			this.numCount[value] = 1;
+			this.uniqueNums.push(value);
+	}
+	
+	this.queue.push(value);
+
+};
+
+/** 
+* Your FirstUnique object will be instantiated and called as such:
+* var obj = new FirstUnique(nums)
+* var param_1 = obj.showFirstUnique()
+* obj.add(value)
+*/
+
+
+// Attempt #1
+// /**
+//  * @param {number[]} nums
+//  */
+// var FirstUnique = function(nums) {
+// 	this.queue = nums;
+// 	console.log(this.queue, 'queue AFTER Add in BASE function');
+// 	this.uniqueNums = [];
+	
+// 	this.queue.map( num => {
+// 			if(!this.uniqueNums.includes(num) && this.queue.filter( element => element === num).length === 1) {
+// 					this.uniqueNums.push(num);
+// 			}
+// 	});
+// 	console.log(this.uniqueNums, 'uniqueNums AFTER Add in BASE function');
+// };
+
+// /**
+// * @return {number}
+// */
+// FirstUnique.prototype.showFirstUnique = function() {
+// 	return this.uniqueNums.length ? this.uniqueNums[0] : -1;
+// };
+
+// /** 
+// * @param {number} value
+// * @return {void}
+// */
+// FirstUnique.prototype.add = function(value) {
+// 	this.queue.includes(value) ? this.uniqueNums.splice(this.uniqueNums.indexOf(value), 1) : this.uniqueNums.push(value);
+// 	console.log(this.uniqueNums, 'uniqueNums');
+	
+// 	this.queue.push(value);
+// 	console.log(this.queue, 'queue AFTER Add');
+// };
+
+// /** 
+// * Your FirstUnique object will be instantiated and called as such:
+// * var obj = new FirstUnique(nums)
+// * var param_1 = obj.showFirstUnique()
+// * obj.add(value)
+// */
+
+
+// Attempt #3
+// /**
+//  * @param {number[]} nums
+//  */
+// var FirstUnique = function(nums) {
+// 	this.queue = nums;
+// 	console.log(this.queue, 'queue AFTER Add in BASE function');
+// 	this.numCount = this.queue.reduce( (accumulator, num) => {
+// 			accumulator[num] = accumulator[num] ? accumulator[num] + 1 : 1;
+// 			return accumulator;
+// 	}, {});
+// 	console.log(this.numCount, 'numCount');
+// 	this.uniqueNums = [];
+	
+// 	this.queue.map( num => {
+// 			if(this.numCount[`${num}`] === 1) {
+// 					this.uniqueNums.push(num);
+// 			}
+// 	});
+// 	console.log(this.uniqueNums, 'uniqueNums AFTER Add in BASE function');
+// };
+
+// /**
+// * @return {number}
+// */
+// FirstUnique.prototype.showFirstUnique = function() {
+// 	return this.uniqueNums.length ? this.uniqueNums[0] : -1;
+// };
+
+// /** 
+// * @param {number} value
+// * @return {void}
+// */
+// FirstUnique.prototype.add = function(value) {
+// 	if (this.numCount[value] > 0) {
+// 			this.numCount[value]++;
+// 			this.uniqueNums.splice(this.uniqueNums.indexOf(value), 1);
+// 	} else {
+// 			this.numCount[value] = 1;
+// 			this.uniqueNums.push(value);
+// 	}
+// 	console.log(this.numCount, 'numCount');
+// 	console.log(this.uniqueNums, 'uniqueNums');
+	
+// 	this.queue.push(value);
+// 	console.log(this.queue, 'queue AFTER Add');
+// };
+
+// /** 
+// * Your FirstUnique object will be instantiated and called as such:
+// * var obj = new FirstUnique(nums)
+// * var param_1 = obj.showFirstUnique()
+// * obj.add(value)
+// */
