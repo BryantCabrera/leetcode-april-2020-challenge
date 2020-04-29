@@ -41,7 +41,7 @@
  */
 var maxPathSum = function(root) {
 	// Initialize a cache to a very small number to account for a path with a negative sum
-	let max = -Infinity 
+	let max = -Infinity;
 	
 	// Recursively traverse the binary tree 
 	function getMaxSum(tree) {
