@@ -39,3 +39,87 @@
 // 1 <= arr.length <= 5000
 // 0 <= arr[i] <= 9
 // Each node's value is between [0 - 9].
+
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+var isValidSequence = function(root, arr) {
+	if (!root) {
+			return arr.length === 0;
+	}
+	
+	const isValid = (root, arr, index) => {
+			if (!root || index === arr.length) {
+					return false;
+			}
+			
+			if (!root.left && !root.right) {
+					if (root.val === arr[index] && index === arr.length - 1) {
+							return true;
+					}
+					
+					return false;
+			}
+			
+			return (index < arr.length) && (root.val === arr[index]) && (isValid(root.left, arr, index + 1) || isValid(root.right, arr, index + 1));
+	};
+	
+	return isValid(root, arr, 0);
+};
+
+
+// Attempt #1
+// /**
+//  * Definition for a binary tree node.
+//  * function TreeNode(val, left, right) {
+//  *     this.val = (val===undefined ? 0 : val)
+//  *     this.left = (left===undefined ? null : left)
+//  *     this.right = (right===undefined ? null : right)
+//  * }
+//  */
+// /**
+//  * @param {TreeNode} root
+//  * @param {number[]} arr
+//  * @return {boolean}
+//  */
+// var isValidSequence = function(root, arr) {
+// 	let possiblyValidNodesQueue = [root];
+// 	console.log(possiblyValidNodesQueue, 'possiblyValidNodesQueue INITIAL');
+	
+// 	// EDGE CASE: If the root's value does not match the first element in the array, we don't need to traverse the binary tree
+
+// 	let currentIndexInArray = 0;
+// 	for (let i = 0; i < arr.length; i++) {
+// 			while (possiblyValidNodesQueue.length) {
+// 					console.log(possiblyValidNodesQueue, 'possiblyValidNodesQueue BEFORE');
+					
+// 					// Termination Condition: If there are no more nodes to check and we have not found the value in the sequence, return false
+// 					if (i < arr.length && possiblyValidNodesQueue.length === 0) {
+// 							return false;
+// 					}
+
+// 					if (possiblyValidNodesQueue[0].val === arr[i]) {
+// 							if (possiblyValidNodesQueue[0].left !== null) {
+// 									possiblyValidNodesQueue.push(possiblyValidNodesQueue[0].left);
+// 							}
+// 							if (possiblyValidNodesQueue[0].right !== null) {
+// 									possiblyValidNodesQueue.push(possiblyValidNodesQueue[0].right);
+// 							}
+// 					}
+
+// 					possiblyValidNodesQueue.shift();
+// 					console.log(possiblyValidNodesQueue, 'possiblyValidNodesQueue AFTER');
+// 			}
+// 	}
+// };
